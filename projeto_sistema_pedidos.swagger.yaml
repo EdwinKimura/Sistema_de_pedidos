@@ -1,0 +1,621 @@
+info:
+  title: projeto_sistema_pedidos
+  description: ''
+  version: 1.0.0
+tags:
+  - name: Clientes
+  - name: Pedidos
+  - name: Produtos
+  - name: Categoria
+  - name: itensPedido
+paths:
+  /api/clientes:
+    get:
+      summary: Listar Clientes
+      deprecated: false
+      description: ''
+      operationId: get_app_cliente_listarclientes
+      tags:
+        - Clientes
+        - Clientes
+      parameters: []
+      responses:
+        '201':
+          description: Cliente selecionado
+          headers: {}
+          schema:
+            properties:
+              id:
+                type: integer
+              nome:
+                type: string
+              email:
+                type: string
+            type: object
+      security: []
+      produces:
+        - application/json
+    post:
+      summary: Cadastrar cliente
+      deprecated: false
+      description: ''
+      operationId: post_app_cliente_cadastrar
+      tags:
+        - Clientes
+        - Clientes
+      parameters:
+        - name: body
+          in: body
+          schema:
+            properties:
+              nome:
+                type: string
+              email:
+                type: string
+              cpf:
+                type: string
+            type: object
+      responses:
+        '201':
+          description: Cliente cadastrado com sucesso
+          headers: {}
+          schema:
+            properties:
+              id:
+                type: integer
+              nome:
+                type: string
+              email:
+                type: string
+              cpf:
+                type: string
+            type: object
+      security: []
+      consumes:
+        - application/json
+      produces:
+        - application/json
+  /api/pedido:
+    post:
+      summary: Criar pedido
+      deprecated: false
+      description: ''
+      operationId: post_app_pedido_criar
+      tags:
+        - Pedidos
+        - Pedidos
+      parameters:
+        - name: body
+          in: body
+          schema:
+            properties:
+              clienteEmail:
+                required:
+                  - 'false'
+                type: string
+              itens:
+                type: array
+                items:
+                  properties:
+                    produtoId:
+                      type: integer
+                    quantidade:
+                      type: integer
+                  type: object
+            type: object
+      responses:
+        '201':
+          description: Pedido criado com sucesso
+          headers: {}
+          schema:
+            properties:
+              id:
+                type: integer
+              status:
+                type: string
+              valorTotal:
+                type: number
+                format: float
+            type: object
+        '500':
+          description: Falha ao fazer pedido
+          headers: {}
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security: []
+      consumes:
+        - application/json
+      produces:
+        - application/json
+  /api/pagamento/{pedidoId}:
+    post:
+      summary: Pagar pedido
+      deprecated: false
+      description: ''
+      operationId: post_app_pedido_pagarpedido
+      tags:
+        - Pedidos
+        - Pedidos
+      parameters:
+        - name: pedidoId
+          in: path
+          description: ''
+          required: true
+          type: integer
+          x-example: 0
+        - name: body
+          in: body
+          schema:
+            properties:
+              valor_pago:
+                type: number
+                format: float
+                examples:
+                  - 20.4
+            type: object
+      responses:
+        '200':
+          description: Status Atualizado
+          headers: {}
+          schema:
+            properties:
+              id:
+                type: integer
+              status:
+                type: string
+            type: object
+        '404':
+          description: Status não atualizado
+          headers: {}
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security: []
+      consumes:
+        - application/json
+      produces:
+        - application/json
+  /api/pedido/status/{pedidoId}:
+    post:
+      summary: Atualizar pedido
+      deprecated: false
+      description: ''
+      operationId: post_app_pedido_atualizarstatus
+      tags:
+        - Pedidos
+        - Pedidos
+      parameters:
+        - name: pedidoId
+          in: path
+          description: ''
+          required: true
+          type: string
+          x-example: ''
+        - name: body
+          in: body
+          schema:
+            properties:
+              status:
+                type: string
+                examples:
+                  - Em Preparação
+            type: object
+      responses:
+        '200':
+          description: Status Atualizado
+          headers: {}
+          schema:
+            properties:
+              id:
+                type: integer
+              status:
+                type: string
+            type: object
+        '404':
+          description: Status não atualizado
+          headers: {}
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security: []
+      consumes:
+        - application/json
+      produces:
+        - application/json
+  /api/pedidos:
+    get:
+      summary: Listar pedidos
+      deprecated: false
+      description: ''
+      operationId: get_app_pedido_listar
+      tags:
+        - Pedidos
+        - Pedidos
+      parameters: []
+      responses:
+        '200':
+          description: Detalhes do pedido
+          headers: {}
+          schema:
+            properties:
+              id:
+                type: integer
+              cliente:
+                type: App\Domain\Entity\Cliente
+              status:
+                type: string
+              valor_total:
+                type: number
+                format: float
+              criadoEm:
+                type: string
+              modificadoEm:
+                type: string
+            type: object
+        '404':
+          description: Pedido não encontrado
+          headers: {}
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security: []
+      produces:
+        - application/json
+  /api/acompanhar:
+    get:
+      summary: Acompanhar pedidos
+      deprecated: false
+      description: ''
+      operationId: get_app_pedido_listarpedidospendentes
+      tags:
+        - Pedidos
+        - Pedidos
+      parameters: []
+      responses:
+        '200':
+          description: Número, nome e status do pedido
+          headers: {}
+          schema:
+            properties:
+              id:
+                type: integer
+              nome:
+                type: string
+              status:
+                type: string
+            type: object
+        '404':
+          description: Pedido não encontrado
+          headers: {}
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security: []
+      produces:
+        - application/json
+  /api/produtos:
+    get:
+      summary: Listar todos os produtos
+      deprecated: false
+      description: ''
+      operationId: get_app_produto_listar
+      tags:
+        - Produtos
+        - Produtos
+      parameters: []
+      responses:
+        '200':
+          description: Lista de produtos
+          headers: {}
+          schema:
+            type: array
+            items:
+              properties:
+                id:
+                  type: integer
+                nome:
+                  type: string
+                descricao:
+                  type: string
+                preco:
+                  type: number
+                  format: float
+                categoria:
+                  type: string
+              type: object
+      security: []
+      produces:
+        - application/json
+    post:
+      summary: Criar um novo produto
+      deprecated: false
+      description: ''
+      operationId: post_app_produto_criar
+      tags:
+        - Produtos
+        - Produtos
+      parameters:
+        - name: body
+          in: body
+          schema:
+            properties:
+              nome:
+                type: string
+              descricao:
+                type: string
+              preco:
+                type: number
+                format: float
+              categoria:
+                type: string
+            type: object
+      responses:
+        '201':
+          description: Produto criado com sucesso
+          headers: {}
+          schema:
+            properties:
+              id:
+                type: integer
+              nome:
+                type: string
+              descricao:
+                type: string
+              preco:
+                type: number
+                format: float
+              categoria:
+                type: string
+            type: object
+      security: []
+      consumes:
+        - application/json
+      produces:
+        - application/json
+  /api/produtos/{id}:
+    put:
+      summary: Atualizar um produto
+      deprecated: false
+      description: ''
+      operationId: put_app_produto_atualizar
+      tags:
+        - Produtos
+        - Produtos
+      parameters:
+        - name: id
+          in: path
+          description: ''
+          required: true
+          type: integer
+          x-example: 0
+        - name: body
+          in: body
+          schema:
+            properties:
+              nome:
+                type: string
+              descricao:
+                type: string
+              preco:
+                type: number
+                format: float
+              categoria:
+                type: number
+            type: object
+      responses:
+        '200':
+          description: Produto atualizado com sucesso
+          headers: {}
+          schema:
+            properties:
+              id:
+                type: integer
+              nome:
+                type: string
+              descricao:
+                type: string
+              preco:
+                type: number
+                format: float
+              categoria:
+                type: string
+            type: object
+      security: []
+      consumes:
+        - application/json
+      produces:
+        - application/json
+    delete:
+      summary: Deletar um produto
+      deprecated: false
+      description: ''
+      operationId: delete_app_produto_deletar
+      tags:
+        - Produtos
+        - Produtos
+      parameters:
+        - name: id
+          in: path
+          description: ''
+          required: true
+          type: integer
+          x-example: 0
+      responses:
+        '200':
+          description: Produto deletado com sucesso
+          headers: {}
+          schema:
+            properties:
+              message:
+                type: string
+            type: object
+        '404':
+          description: Produto não encontrado
+          headers: {}
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security: []
+      produces:
+        - application/json
+  /api/categoria:
+    get:
+      summary: Listar Categorias
+      deprecated: false
+      description: ''
+      operationId: get_app_categoria_listarcategorias
+      tags:
+        - Categoria
+        - Categoria
+      parameters: []
+      responses:
+        '201':
+          description: Categoria selecionada
+          headers: {}
+          schema:
+            properties:
+              id:
+                type: integer
+              nome:
+                type: string
+            type: object
+      security: []
+      produces:
+        - application/json
+    post:
+      summary: Cadastrar Categoria
+      deprecated: false
+      description: ''
+      operationId: post_app_categoria_cadastrar
+      tags:
+        - Categoria
+        - Categoria
+      parameters:
+        - name: body
+          in: body
+          schema:
+            properties:
+              nome:
+                type: string
+            type: object
+      responses:
+        '201':
+          description: Categoria cadastrada com sucesso
+          headers: {}
+          schema:
+            properties:
+              id:
+                type: integer
+              nome:
+                type: string
+            type: object
+      security: []
+      consumes:
+        - application/json
+      produces:
+        - application/json
+  /api/itemPedidos:
+    post:
+      summary: Criar pedido
+      deprecated: false
+      description: ''
+      operationId: post_app_itempedido_criar
+      tags:
+        - itensPedido
+        - itensPedido
+      parameters:
+        - name: body
+          in: body
+          schema:
+            properties:
+              pedidoId:
+                required:
+                  - 'true'
+                type: integer
+              produtoId:
+                required:
+                  - 'true'
+                type: integer
+              quantidade:
+                required:
+                  - 'true'
+                type: integer
+            type: object
+      responses:
+        '201':
+          description: Pedido criado com sucesso
+          headers: {}
+          schema:
+            properties:
+              id:
+                type: integer
+              status:
+                type: string
+              valorTotal:
+                type: number
+                format: float
+            type: object
+      security: []
+      consumes:
+        - application/json
+      produces:
+        - application/json
+  /api/itensPedido/{id}:
+    get:
+      summary: Detalhes do pedido
+      deprecated: false
+      description: ''
+      operationId: get_app_itempedido_listar
+      tags:
+        - itensPedido
+        - itensPedido
+      parameters:
+        - name: pedidoId
+          in: path
+          description: ''
+          required: true
+          type: integer
+          x-example: 0
+        - name: id
+          in: path
+          description: ''
+          required: true
+          type: string
+          x-example: ''
+      responses:
+        '200':
+          description: Status do pedido
+          headers: {}
+          schema:
+            properties:
+              pedidoId:
+                type: integer
+            type: object
+        '404':
+          description: Pedido não encontrado
+          headers: {}
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security: []
+      produces:
+        - application/json
+swagger: '2.0'
+definitions: {}
+securityDefinitions: {}
+x-components: {}
