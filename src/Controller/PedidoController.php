@@ -33,7 +33,7 @@ class PedidoController
             required: true,
             content: new OA\JsonContent(
                 properties: [
-                    new OA\Property(property: "clienteEmail", type: "string", required: ['false']),
+                    new OA\Property(property: "cpf", type: "string", required: ['false']),
                     new OA\Property(property: "itens", type: "array", items: new OA\Items(properties: [
                         new OA\Property(property: "produtoId", type: "integer"),
                         new OA\Property(property: "quantidade", type: "integer")
@@ -68,7 +68,7 @@ class PedidoController
     {
         $data = json_decode($request->getContent(), true);
 
-        $cliente = $data['clienteEmail'] ? $clienteService->findByEmail($data['clienteEmail']) : null;
+        $cliente = $data['cpf'] ? $clienteService->findByCpf($data['cpf']) : null;
         $pedido = $this->service->save($cliente, itens: $data['itens']);
         if(isset($pedido->error) && $pedido->code = 1){
             return new JsonResponse(['message' => $pedido->message], 404);
@@ -82,6 +82,7 @@ class PedidoController
             'resumo' => array_map(fn($item) => [
                 "item" => $item->getProduto()->getNome(),
                 "valor" => $item->getProduto()->getPreco(),
+                "quantidade" => $item->getQuantidade()
             ], $itensPedido ),
             'valor_total' => $pedido->getValorTotal()
         ]);

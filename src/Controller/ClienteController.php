@@ -29,9 +29,9 @@ class ClienteController
             required: false,
             content: new OA\JsonContent(
                 properties: [
-                    new OA\Property(property: "nome", type: "string"),
-                    new OA\Property(property: "email", type: "string"),
-                    new OA\Property(property: "cpf", type: "string")
+                    new OA\Property(property: "nome", type: "string", required: ['true']),
+                    new OA\Property(property: "email", type: "string", required: ['true']),
+                    new OA\Property(property: "cpf", type: "string", required: ['true'])
                 ]
             )
         ),
@@ -53,12 +53,18 @@ class ClienteController
     public function cadastrar(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        $cliente = $this->service->save($data['cpf'] ?? null, $data['nome'] ?? null, $data['email'] ?? null);
+        if(!isset($data['cpf']) || !isset($data['nome']) || !isset($data['email'])){
+            return new JsonResponse([
+                "message" => "Campos cpf, nome e e-mail obrigatórios",
+            ]);
+        }
+        $cliente = $this->service->save($data['cpf'], $data['nome'], $data['email']);
         
         return new JsonResponse([
             'id' => $cliente->getId(),
             'nome' => $cliente->getNome(),
-            'email' => $cliente->getEmail()
+            'email' => $cliente->getEmail(),
+            'cpf' => $cliente->getCpf()
         ]);
     }
 
@@ -89,10 +95,48 @@ class ClienteController
         }
 
         return new JsonResponse(array_map(fn(Cliente $cliente) => [
-            'id' => $cliente->getId(),
-            'nome' => $cliente->getNome(),
-            'email' => $cliente->getEmail()
+                'id' => $cliente->getId(),
+                'nome' => $cliente->getNome(),
+                'email' => $cliente->getEmail(),
+                'cpf' => $cliente->getCpf()
             ], $clientes)
         );
+    }
+
+    #[Route('/api/cliente/{cpf}', methods: ['GET'])]
+    #[Nelmio\Areas(['internal'])]
+    #[OA\Tag('Clientes')]
+    #[OA\Get(
+        summary: "Buscar Cliente",
+        parameters: [
+            new OA\Parameter(name: "cpf", in: "path", required: true, schema: new OA\Schema(type: "string"))
+        ],
+        responses: [
+            new OA\Response(
+                response: 201,
+                description: "Cliente selecionado",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "id", type: "integer"),
+                        new OA\Property(property: "nome", type: "string"),
+                        new OA\Property(property: "email", type: "string")
+                    ]
+                )
+            )
+        ]
+    )]
+    public function buscarPorCpf(string $cpf): JsonResponse
+    {
+        $cliente = $this->service->findByCpf($cpf);
+        if (!$cliente) {
+            return new JsonResponse(['message' => 'Cliente não encontrado'], 404);
+        }
+
+        return new JsonResponse([
+            'id' => $cliente->getId(),
+            'nome' => $cliente->getNome(),
+            'email' => $cliente->getEmail(),
+            'cpf' => $cliente->getCpf()
+        ]);
     }
 }

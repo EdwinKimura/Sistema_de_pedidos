@@ -165,6 +165,46 @@ class ProdutoController
         ], $produtos));
     }
 
+    #[Route('/api/produtos/categoria/{categoria}', methods: ['GET'])]
+    #[Nelmio\Areas(['internal'])]
+    #[OA\Tag('Produtos')]
+    #[OA\Get(
+        summary: "Listar produtos por categoria",
+        parameters: [
+            new OA\Parameter(name: "categoria", in: "path", required: true, schema: new OA\Schema(type: "integer"))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "Lista de produtos por categoria",
+                content: new OA\JsonContent(
+                    type: "array",
+                    items: new OA\Items(
+                        properties: [
+                            new OA\Property(property: "id", type: "integer"),
+                            new OA\Property(property: "nome", type: "string"),
+                            new OA\Property(property: "descricao", type: "string"),
+                            new OA\Property(property: "preco", type: "number", format: "float"),
+                            new OA\Property(property: "categoria", type: "string")
+                        ]
+                    )
+                )
+            )
+        ]
+    )]
+    public function listarPorCategoria(int $categoria): JsonResponse
+    {
+        $produtos = $this->service->listarProdutosPorCategoria($categoria);
+
+        return new JsonResponse(array_map(fn(Produto $produto) => [
+            'id' => $produto->getId(),
+            'nome' => $produto->getNome(),
+            'descricao' => $produto->getDescricao(),
+            'preco' => $produto->getPreco(),
+            'categoria' => $produto->getCategoria()->getNome(),
+        ], $produtos));
+    }
+
     #[Route('/api/produtos/{id}', methods: ['DELETE'])]
     #[Nelmio\Areas(['internal'])]
     #[OA\Tag('Produtos')]

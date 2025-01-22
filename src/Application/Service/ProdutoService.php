@@ -27,7 +27,7 @@ class ProdutoService
         return $this->repository->save($produto);
     }
 
-    public function atualizarProduto(int $id, string $nome, string $descricao, float $preco, int $categoriaId): ?Produto
+    public function atualizarProduto(int $id, string $nome = null, string $descricao = null, float $preco = null, int $categoriaId = null): ?Produto
     {
         $produto = $this->repository->find($id);
 
@@ -54,6 +54,12 @@ class ProdutoService
     public function listarProdutos(): array
     {
         return $this->repository->findAll();
+    }
+
+    public function listarProdutosPorCategoria(int $categoria): Produto | array
+    {
+        $produtos = $this->repository->findByCategoria($categoria);
+        return $produtos;
     }
 
     public function deletarProduto(int $id): bool

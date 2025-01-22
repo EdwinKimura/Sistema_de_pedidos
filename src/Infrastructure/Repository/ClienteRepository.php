@@ -24,9 +24,9 @@ class ClienteRepository extends ServiceEntityRepository
         return $cliente;
     }
 
-    public function findByEmail(string $email): Cliente
+    public function findByCpf(string $cpf): ?Cliente
     {
-        return $this->em->getRepository(Cliente::class)->findOneBy(['email' => $email]);
+        return $this->em->getRepository(Cliente::class)->findOneBy(['cpf' => $cpf]);
     }
 
     public function list(): array

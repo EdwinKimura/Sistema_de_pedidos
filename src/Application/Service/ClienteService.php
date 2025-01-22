@@ -13,9 +13,9 @@ class ClienteService
 
     public function save(string $cpf = null, string $nome = null, string $email = null): Cliente
     {
-        if($nome != null && $email != null)
+        if($nome != null && $email != null && $cpf != null)
         {
-            $cliente = new Cliente($nome, $email);
+            $cliente = new Cliente($nome, $email, $cpf);
             return $this->repository->save($cliente);
         }
         else
@@ -24,9 +24,9 @@ class ClienteService
         }
     }
 
-    public function findByEmail(string $email): Cliente
+    public function findByCpf(string $cpf): ?Cliente
     {
-        return $this->repository->findByEmail($email);
+        return $this->repository->findByCpf($cpf);
     }
 
     public function list(): array

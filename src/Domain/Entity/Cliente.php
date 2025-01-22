@@ -21,6 +21,9 @@ class Cliente
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cpf = null;
+
     #[ORM\OneToOne(mappedBy: 'cliente', cascade: ['persist', 'remove'])]
     private ?Pedido $pedido = null;
 
@@ -30,10 +33,11 @@ class Cliente
     #[ORM\OneToMany(targetEntity: Pedido::class, mappedBy: 'cliente')]
     private Collection $pedidos;
 
-    public function __construct(?string $nome = null, ?string $email = null)
+    public function __construct(?string $nome = null, ?string $email = null, ?string $cpf = null)
     {
         $this->nome = $nome;
         $this->email = $email;
+        $this->cpf = $cpf;
         $this->pedidos = new ArrayCollection();
     }
 
@@ -62,6 +66,18 @@ class Cliente
     public function setEmail(?string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getCpf(): ?string
+    {
+        return $this->cpf;
+    }
+
+    public function setCpf(?string $cpf): static
+    {
+        $this->cpf = $cpf;
 
         return $this;
     }

@@ -49,10 +49,16 @@ paths:
           schema:
             properties:
               nome:
+                required:
+                  - 'true'
                 type: string
               email:
+                required:
+                  - 'true'
                 type: string
               cpf:
+                required:
+                  - 'true'
                 type: string
             type: object
       responses:
@@ -75,6 +81,38 @@ paths:
         - application/json
       produces:
         - application/json
+  /api/cliente/{cpf}:
+    get:
+      summary: Buscar Cliente
+      deprecated: false
+      description: ''
+      operationId: get_app_cliente_buscarporcpf
+      tags:
+        - Clientes
+        - Clientes
+      parameters:
+        - name: cpf
+          in: path
+          description: ''
+          required: true
+          type: string
+          x-example: ''
+      responses:
+        '201':
+          description: Cliente selecionado
+          headers: {}
+          schema:
+            properties:
+              id:
+                type: integer
+              nome:
+                type: string
+              email:
+                type: string
+            type: object
+      security: []
+      produces:
+        - application/json
   /api/pedido:
     post:
       summary: Criar pedido
@@ -89,7 +127,7 @@ paths:
           in: body
           schema:
             properties:
-              clienteEmail:
+              cpf:
                 required:
                   - 'false'
                 type: string
@@ -468,6 +506,45 @@ paths:
               error:
                 type: string
             type: object
+      security: []
+      produces:
+        - application/json
+  /api/produtos/{categoria}:
+    get:
+      summary: Listar produtos por categoria
+      deprecated: false
+      description: ''
+      operationId: get_app_produto_listarporcategoria
+      tags:
+        - Produtos
+        - Produtos
+      parameters:
+        - name: categoria
+          in: path
+          description: ''
+          required: true
+          type: integer
+          x-example: 0
+      responses:
+        '200':
+          description: Lista de produtos por categoria
+          headers: {}
+          schema:
+            type: array
+            items:
+              properties:
+                id:
+                  type: integer
+                nome:
+                  type: string
+                descricao:
+                  type: string
+                preco:
+                  type: number
+                  format: float
+                categoria:
+                  type: string
+              type: object
       security: []
       produces:
         - application/json

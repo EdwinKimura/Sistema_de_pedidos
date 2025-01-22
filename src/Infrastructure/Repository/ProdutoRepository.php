@@ -29,6 +29,18 @@ class ProdutoRepository extends ServiceEntityRepository
         return $this->em->getRepository(Produto::class)->find($id);
     }
 
+    public function findByCategoria(int $id): Produto | array
+    {
+        $query = $this->em->createQuery(
+            'SELECT p
+                FROM App\Domain\Entity\Produto p
+                INNER JOIN p.categoria c
+                WHERE c.id = :id'
+        )->setParameter('id', $id);
+
+        return $query->getResult();
+    }
+
     public function list(): array
     {
         return $this->em->getRepository(Produto::class)->findAll();
