@@ -100,6 +100,7 @@ Pode ser um container separado ou um serviço integrado ao backend.
 #### 5. Pipeline CI/CD:
 Automatiza o processo de build, testes e deploy.
 
+```mermaid
 graph TB
   A[Nginx - Reverso Proxy] -->|Roteamento de requisições| B[App Backend (PHP/Symfony)]
   B --> C[Banco de Dados (PostgreSQL)]
@@ -114,6 +115,7 @@ graph TB
   
   E[CI/CD Pipeline] -->|Automação| B
   E --> C
+```
 
 ### 4. Implementação:
 #### a. Infraestrutura Kubernetes (usando Minikube ou outra plataforma):
