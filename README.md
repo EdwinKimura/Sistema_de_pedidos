@@ -172,9 +172,8 @@ graph TB
 >#### DELETE /api/produtos/{id}
 >Deletar um produto.
 
-#### GET /api/produtos/categoria/{categoria}
-
-    Listar produtos por categoria.
+>#### GET /api/produtos/categoria/{categoria}
+>Listar produtos por categoria.
 
 ### 4. Categoria
 >#### GET /api/categoria
