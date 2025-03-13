@@ -1,15 +1,11 @@
-controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-    type: attribute
+categoria_api:
+    resource: './routes/categoria_routes.yaml'
 
-app.swagger:
-    path: /api/doc.json
-    methods: GET
-    defaults: { _controller: nelmio_api_doc.controller.swagger }
+cliente_api:
+    resource: './routes/cliente_routes.yaml'
 
-app.swagger_ui:
-    path: /{internal}/doc
-    methods: GET
-    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+pedido_api:
+    resource: './routes/pedido_routes.yaml'
+
+produto_api:
+    resource: './routes/produto_routes.yaml'

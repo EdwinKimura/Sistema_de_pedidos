@@ -28,9 +28,4 @@ RUN composer install --optimize-autoloader
 # Ajustar permissões (se necessário)
 RUN chown -R www-data:www-data /var/www/html
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
-
-# Expor a porta do PHP-FPM
 EXPOSE 9000

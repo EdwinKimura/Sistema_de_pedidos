@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sistema-pedidos-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sistema-pedidos-app
+  template:
+    metadata:
+      labels:
+        app: sistema-pedidos-app
+    spec:
+      containers:
+        - name: sistema-pedidos-app
+          image: edwinkimura/sistema-pedidos-app:latest
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://symfony_user:senha_segura@database:5432/sistema_pedidos"
+          ports:
+            - containerPort: 9000

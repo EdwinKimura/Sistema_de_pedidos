@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sistema-pedidos-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sistema-pedidos-nginx
+  template:
+    metadata:
+      labels:
+        app: sistema-pedidos-nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: app-volume
+              mountPath: /var/www/html
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: nginx-config
+        - name: app-volume
+          hostPath:
+            path: /Users/edwinkimura/Sites/sistema-pedidos-solid/

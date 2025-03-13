@@ -1,0 +1,29 @@
+listar_pedidos:
+  path: /api/pedidos
+  controller: App\Api\PedidoApi::listar
+  methods: GET
+
+criar_pedido:
+  path: /api/pedido
+  controller: App\Api\PedidoApi::criar
+  methods: POST
+
+pagamento_pedido:
+  path: /api/pagamento/{pedidoId}
+  controller: App\Api\PedidoApi::pagarPedido
+  methods: PUT
+
+atualizar_status_do_pedido:
+  path: /api/pedido/status/{pedidoId}
+  controller: App\Api\PedidoApi::atualizarStatus
+  methods: PUT
+
+acompanhar_pedidos:
+  path: /api/acompanhar
+  controller: App\Api\PedidoApi::listarPedidosPendentes
+  methods: GET
+
+detalhes_pedidos:
+  path: /api/pedido/detalhes/{pedidoId}
+  controller: App\Api\PedidoApi::detalhesPedido
+  methods: GET

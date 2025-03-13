@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/sistema-pedidos.iml" filepath="$PROJECT_DIR$/.idea/sistema-pedidos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/sistema-pedidos-solid.iml" filepath="$PROJECT_DIR$/.idea/sistema-pedidos-solid.iml" />
     </modules>
   </component>
 </project>

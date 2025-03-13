@@ -3,50 +3,48 @@
 namespace App\Domain\Entity;
 
 use App\Infrastructure\Repository\ItemPedidoRepository;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ItemPedidoRepository::class)]
 class ItemPedido
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'itemPedidos', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Pedido $pedido = null;
+    private ?int $pedido = null;
 
-    #[ORM\ManyToOne(inversedBy: 'itemPedidos')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Produto $produto = null;
+    private ?int $produto = null;
 
-    #[ORM\Column]
     private ?int $quantidade = null;
+
+    public function __construct(?int $id = null, ?int $pedido = null, ?int $produto = null, ?int $quantidade = null)
+    {
+        $this->id = $id;
+        $this->pedido = $pedido;
+        $this->produto = $produto;
+        $this->quantidade = $quantidade;
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPedido(): ?Pedido
+    public function getPedido(): ?int
     {
         return $this->pedido;
     }
 
-    public function setPedido(?Pedido $pedido): static
+    public function setPedido(?int $pedido): static
     {
         $this->pedido = $pedido;
 
         return $this;
     }
 
-    public function getProduto(): ?Produto
+    public function getProduto(): ?int
     {
         return $this->produto;
     }
 
-    public function setProduto(?Produto $produto): static
+    public function setProduto(?int $produto): static
     {
         $this->produto = $produto;
 
@@ -63,5 +61,15 @@ class ItemPedido
         $this->quantidade = $quantidade;
 
         return $this;
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            $data['id'] ?? null,
+            $data['pedido'] ?? null,
+            $data['produto'] ?? null,
+            $data['quantidade'] ?? null
+        );
     }
 }

@@ -7,36 +7,25 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ProdutoRepository::class)]
 class Produto
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
     private ?string $nome = null;
 
-    #[ORM\Column(length: 255)]
     private ?string $descricao = null;
 
-    #[ORM\Column]
     private ?float $preco = null;
 
-    #[ORM\ManyToOne(inversedBy: 'produtos')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Categoria $categoria = null;
+    private ?int $categoria = null;
 
-    /**
-     * @var Collection<int, ItemPedido>
-     */
-    #[ORM\OneToMany(targetEntity: ItemPedido::class, mappedBy: 'produto')]
-    private Collection $itemPedidos;
-
-    public function __construct()
+    public function __construct(?int $id = null, ?string $nome = null, ?string $descricao = null, ?float $preco = null, ?int $categoria = null)
     {
-        $this->itemPedidos = new ArrayCollection();
+        $this->id = $id;
+        $this->nome = $nome;
+        $this->descricao = $descricao;
+        $this->preco = $preco;
+        $this->categoria = $categoria;
     }
 
     public function getId(): ?int
@@ -80,45 +69,26 @@ class Produto
         return $this;
     }
 
-    public function getCategoria(): ?Categoria
+    public function getCategoria(): ?int
     {
         return $this->categoria;
     }
 
-    public function setCategoria(?Categoria $categoria): static
+    public function setCategoria(?int $categoria): static
     {
         $this->categoria = $categoria;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, ItemPedido>
-     */
-    public function getItemPedidos(): Collection
+    public static function fromArray(array $data): self
     {
-        return $this->itemPedidos;
-    }
-
-    public function addItemPedido(ItemPedido $itemPedido): static
-    {
-        if (!$this->itemPedidos->contains($itemPedido)) {
-            $this->itemPedidos->add($itemPedido);
-            $itemPedido->setProduto($this);
-        }
-
-        return $this;
-    }
-
-    public function removeItemPedido(ItemPedido $itemPedido): static
-    {
-        if ($this->itemPedidos->removeElement($itemPedido)) {
-            // set the owning side to null (unless already changed)
-            if ($itemPedido->getProduto() === $this) {
-                $itemPedido->setProduto(null);
-            }
-        }
-
-        return $this;
+        return new self(
+            $data['id'] ?? null,
+            $data['nome'] ?? null,
+            $data['descricao'] ?? null,
+            $data['preco'] ?? null,
+            $data['categoria_id'] ?? null
+        );
     }
 }

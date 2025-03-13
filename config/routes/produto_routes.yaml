@@ -1,0 +1,24 @@
+listar_produtos:
+  path: /api/produtos
+  controller: App\Api\ProdutoApi::listar
+  methods: GET
+
+cadastrar_produtos:
+  path: /api/produtos
+  controller: App\Api\ProdutoApi::criar
+  methods: POST
+
+alterar_produto:
+  path: /api/produtos/{id}
+  controller: App\Api\ProdutoApi::atualizar
+  methods: PUT
+
+buscar_produto_por_categoria:
+  path: /api/produtos/categoria/{categoria}
+  controller: App\Api\ProdutoApi::listarPorCategoria
+  methods: GET
+
+deletar_produto:
+  path: /api/produtos/{id}
+  controller: App\Api\ProdutoApi::deletar
+  methods: DELETE

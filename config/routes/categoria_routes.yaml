@@ -1,0 +1,9 @@
+listar_categorias:
+  path: /api/categoria
+  controller: App\Api\CategoriaApi::listarCategorias
+  methods: GET
+
+cadastrar_categorias:
+  path: /api/categoria
+  controller: App\Api\CategoriaApi::cadastrar
+  methods: POST

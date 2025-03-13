@@ -1,77 +1,25 @@
-parameters:
-
 services:
-    App\DataFixtures\:
-        resource: '../src/DataFixtures'
-        tags: ['doctrine.fixture.orm']
 
+    App\External\Database:
+        arguments:
+            $connection: '@doctrine.dbal.default_connection'
 
+    App\Api\CategoriaApi:
+        arguments:
+            $db_connection: '@App\External\Database'
+        public: true
 
-# Repositories
-    App\Infrastructure\Repository\CategoriaRepository:
+    App\Api\ClienteApi:
         arguments:
-            $registry: '@doctrine'
-        tags: ['doctrine.repository_service']
-    App\Infrastructure\Repository\ClienteRepository:
-        arguments:
-            $registry: '@doctrine'
-        tags: ['doctrine.repository_service']
-    App\Infrastructure\Repository\PedidoRepository:
-        arguments:
-            $registry: '@doctrine'
-        tags: [ 'doctrine.repository_service' ]
-    App\Infrastructure\Repository\ItemPedidoRepository:
-        arguments:
-            $registry: '@doctrine'
-        tags: [ 'doctrine.repository_service' ]
-    App\Infrastructure\Repository\ProdutoRepository:
-        arguments:
-            $registry: '@doctrine'
-        tags: [ 'doctrine.repository_service' ]
+            $db_connection: '@App\External\Database'
+        public: true
 
+    App\Api\ProdutoApi:
+        arguments:
+            $db_connection: '@App\External\Database'
+        public: true
 
-# Services
-    App\Application\Service\CategoriaService:
+    App\Api\PedidoApi:
         arguments:
-            $repository: '@App\Infrastructure\Repository\CategoriaRepository'
-    App\Application\Service\ClienteService:
-        arguments:
-            $repository: '@App\Infrastructure\Repository\ClienteRepository'
-    App\Application\Service\ItemPedidoService:
-        arguments:
-            $repository: '@App\Infrastructure\Repository\ItemPedidoRepository'
-            $pedidoRepository: '@App\Infrastructure\Repository\PedidoRepository'
-            $produtoRepository: '@App\Infrastructure\Repository\ProdutoRepository'
-    App\Application\Service\PedidoService:
-        arguments:
-            $repository: '@App\Infrastructure\Repository\PedidoRepository'
-            $itemPedidoRepository: '@App\Infrastructure\Repository\ItemPedidoRepository'
-            $produtoRepository: '@App\Infrastructure\Repository\ProdutoRepository'
-    App\Application\Service\ProdutoService:
-        arguments:
-            $repository: '@App\Infrastructure\Repository\ProdutoRepository'
-            $categoriaRepository: '@App\Infrastructure\Repository\CategoriaRepository'
-
-
-# Controllers
-    App\Controller\CategoriaController:
-        arguments:
-            $service: '@App\Application\Service\CategoriaService'
-        tags: ['controller.service_arguments']
-    App\Controller\ClienteController:
-        arguments:
-            $service: '@App\Application\Service\ClienteService'
-        tags: ['controller.service_arguments']
-    App\Controller\ItemPedidoController:
-        arguments:
-            $service: '@App\Application\Service\ItemPedidoService'
-        tags: [ 'controller.service_arguments' ]
-    App\Controller\PedidoController:
-        arguments:
-            $service: '@App\Application\Service\PedidoService'
-        tags: ['controller.service_arguments']
-    App\Controller\ProdutoController:
-        arguments:
-            $service: '@App\Application\Service\ProdutoService'
-        tags: ['controller.service_arguments']
-
+            $db_connection: '@App\External\Database'
+        public: true

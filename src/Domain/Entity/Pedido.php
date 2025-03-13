@@ -2,46 +2,40 @@
 
 namespace App\Domain\Entity;
 
-use App\Infrastructure\Repository\PedidoRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-use phpseclib3\Math\BigInteger;
 
-#[ORM\Entity(repositoryClass: PedidoRepository::class)]
 class Pedido
 {
-    
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'pedidos', cascade: ['persist', 'remove'])]
-    private ?Cliente $cliente = null;
+    private ?int $cliente = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $status = null;
+    private ?array $itens = null;
 
-    #[ORM\Column()]
     private ?float $valorTotal = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?string $status = null;
+
     private ?int $criadoEm = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $modificadoEm = null;
 
-    /**
-     * @var Collection<int, ItemPedido>
-     */
-    #[ORM\OneToMany(targetEntity: ItemPedido::class, mappedBy: 'pedido', cascade: ['persist', 'remove'])]
-    private Collection $itemPedidos;
-
-    public function __construct()
+    public function __construct(
+        ?int $id = null,
+        ?int $cliente = null,
+        ?array $itens = null,
+        ?string $status = null,
+        ?float $valorTotal = null,
+        ?int $criadoEm = null,
+        ?int $modificadoEm = null
+    )
     {
-        $this->itemPedidos = new ArrayCollection();
+        $this->id = $id;
+        $this->cliente = $cliente;
+        $this->status = $status;
+        $this->valorTotal = $valorTotal;
+        $this->criadoEm = $criadoEm;
+        $this->modificadoEm = $modificadoEm;
     }
 
     public function getId(): ?int
@@ -49,12 +43,12 @@ class Pedido
         return $this->id;
     }
 
-    public function getCliente(): ?Cliente
+    public function getCliente(): ?int
     {
         return $this->cliente;
     }
 
-    public function setCliente(?Cliente $cliente): static
+    public function setCliente(?int $cliente): static
     {
         $this->cliente = $cliente;
 
@@ -85,6 +79,18 @@ class Pedido
         return $this;
     }
 
+    public function getItens(): ?array
+    {
+        return $this->itens;
+    }
+
+    public function setItens(?array $itens): static
+    {
+        $this->itens = $itens;
+
+        return $this;
+    }
+
     public function getCriadoEm(): ?int
     {
         return $this->criadoEm;
@@ -109,33 +115,17 @@ class Pedido
         return $this;
     }
 
-    /**
-     * @return Collection<int, ItemPedido>
-     */
-    public function getItemPedidos(): Collection
+    public static function fromArray(array $data): static
     {
-        return $this->itemPedidos;
+        return new self(
+            $data['id'] ?? null,
+            $data['cliente_id'] ?? null,
+            $data['itens'] ?? null,
+            $data['status'] ?? null,
+            $data['valor_total'] ?? null,
+            $data['criado_em'] ?? null,
+            $data['modificado_em'] ?? null
+        );
     }
 
-    public function addItemPedido(ItemPedido $itemPedido): static
-    {
-        if (!$this->itemPedidos->contains($itemPedido)) {
-            $this->itemPedidos->add($itemPedido);
-            $itemPedido->setPedido($this);
-        }
-
-        return $this;
-    }
-
-    public function removeItemPedido(ItemPedido $itemPedido): static
-    {
-        if ($this->itemPedidos->removeElement($itemPedido)) {
-            // set the owning side to null (unless already changed)
-            if ($itemPedido->getPedido() === $this) {
-                $itemPedido->setPedido(null);
-            }
-        }
-
-        return $this;
-    }
 }

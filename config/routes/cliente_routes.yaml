@@ -1,0 +1,14 @@
+listar_clientes:
+  path: /api/clientes
+  controller: App\Api\ClienteApi::listarClientes
+  methods: GET
+
+cadastrar_cliente:
+  path: /api/clientes
+  controller: App\Api\ClienteApi::cadastrar
+  methods: POST
+
+buscar_cliente_cpf:
+  path: /api/cliente/{cpf}
+  controller: App\Api\ClienteApi::buscarPorCpf
+  methods: GET
