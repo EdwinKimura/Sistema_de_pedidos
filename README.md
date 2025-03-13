@@ -128,3 +128,57 @@ graph TB
   E[CI/CD Pipeline] -->|Automação| B
   E --> C
 ```
+
+## Rotas da API
+### 1. Clientes
+>#### GET /api/clientes 
+>Listar todos os clientes.
+
+>#### POST /api/clientes
+>Cadastrar um novo cliente.
+
+>#### GET /api/cliente/{cpf}
+>Buscar cliente por CPF.
+
+### 2. Pedidos
+>#### GET /api/pedidos
+>Listar todos os pedidos.
+
+>#### POST /api/pedido
+>Criar um novo pedido.
+
+>#### PUT /api/pagamento/{pedidoId}
+>Pagar um pedido.
+
+>#### PUT /api/pedido/status/{pedidoId}
+>Atualizar o status de um pedido.
+
+>#### GET /api/acompanhar
+>Acompanhar pedidos.
+
+>#### GET /api/pedido/detalhes/{id}
+>Ver detalhes de um pedido.
+
+### 3. Produtos
+>#### GET /api/produtos
+>  Listar todos os produtos.
+
+>#### POST /api/produtos
+>Criar um novo produto.
+
+>#### PUT /api/produtos/{id}
+>Atualizar um produto existente.
+
+>#### DELETE /api/produtos/{id}
+>Deletar um produto.
+
+#### GET /api/produtos/categoria/{categoria}
+
+    Listar produtos por categoria.
+
+### 4. Categoria
+>#### GET /api/categoria
+>Listar todas as categorias.
+
+>#### POST /api/categoria
+>Cadastra uma categoria.
