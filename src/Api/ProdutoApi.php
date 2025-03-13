@@ -106,7 +106,7 @@ class ProdutoApi
                     new OA\Property(property: "nome", type: "string"),
                     new OA\Property(property: "descricao", type: "string"),
                     new OA\Property(property: "preco", type: "number", format: "float"),
-                    new OA\Property(property: "categoria", type: "string")
+                    new OA\Property(property: "categoria_id", type: "string")
                 ]
             )
         ),
@@ -187,7 +187,7 @@ class ProdutoApi
                     new OA\Property(property: "nome", type: "string"),
                     new OA\Property(property: "descricao", type: "string"),
                     new OA\Property(property: "preco", type: "number", format: "float"),
-                    new OA\Property(property: "categoria", type: "number")
+                    new OA\Property(property: "categoria_id", type: "number")
                 ]
             )
         ),

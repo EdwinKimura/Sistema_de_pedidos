@@ -29,7 +29,7 @@ class PedidoApi
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(property: "id", type: "integer"),
-                        new OA\Property(property: "cliente", type: Cliente::class),
+                        new OA\Property(property: "cliente_id", type: "integer"),
                         new OA\Property(property: "status", type: "string"),
                         new OA\Property(property: "valor_total", type: "float"),
                         new OA\Property(property: "criadoEm", type: "string"),
@@ -69,7 +69,7 @@ class PedidoApi
                 properties: [
                     new OA\Property(property: "cpf", type: "string", required: ['false']),
                     new OA\Property(property: "itens", type: "array", items: new OA\Items(properties: [
-                        new OA\Property(property: "produtoId", type: "integer"),
+                        new OA\Property(property: "produto_id", type: "integer"),
                         new OA\Property(property: "quantidade", type: "integer")
                     ]))
                 ]
@@ -326,7 +326,7 @@ class PedidoApi
     }
 
     #[Nelmio\Areas(['internal'])]
-    #[OA\Tag('itensPedido')]
+    #[OA\Tag('Pedidos')]
     #[OA\Get(
         summary: "Detalhes do pedido",
         parameters: [
@@ -335,10 +335,26 @@ class PedidoApi
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Status do pedido",
+                description: "Detalhe do pedido",
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: "pedidoId", type: "integer")
+                        new OA\Property(property: "id", type: "integer"),
+                        new OA\Property(property: "cliente", type: "array", items: new OA\Items(properties: [
+                            new OA\Property(property: "id", type: "int"),
+                            new OA\Property(property: "nome", type: "string"),
+                            new OA\Property(property: "email", type: "string"),
+                            new OA\Property(property: "cpf", type: "string"),
+                        ])),
+                        new OA\Property(property: "itens", type: "array", items: new OA\Items(properties: [
+                            new OA\Property(property: "id", type: "integer"),
+                            new OA\Property(property: "nome", type: "string"),
+                            new OA\Property(property: "descricao", type: "string"),
+                            new OA\Property(property: "preco", type: "string"),
+                            new OA\Property(property: "categoria", type: "string")
+                        ])),
+                        new OA\Property(property: "status", type: "string"),
+                        new OA\Property(property: "criado_em", type: "integer"),
+                        new OA\Property(property: "modificado_em", type: "integer"),
                     ]
                 )
             ),
