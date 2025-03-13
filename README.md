@@ -85,7 +85,6 @@ Banco de Dados: Pode ser um serviço como PostgreSQL rodando dentro de Kubernete
 CI/CD: Pode ser configurado com pipelines (como GitLab CI ou Jenkins) para automação de deploy.
 
 ### 3. Desenho da Arquitetura:
-
 #### Componentes:
 #### 1. Nginx (Ingress Controller):
 Serve como um proxy reverso para os microserviços.
@@ -99,6 +98,19 @@ Armazena as informações de pedidos e usuários.
 Pode ser um container separado ou um serviço integrado ao backend.
 #### 5. Pipeline CI/CD:
 Automatiza o processo de build, testes e deploy.
+
+### 4. Implementação:
+#### a. Infraestrutura Kubernetes (usando Minikube ou outra plataforma):
+Minikube pode ser utilizado em sua máquina local para criar um cluster Kubernetes. No caso de usar uma nuvem como GKE, AKS ou EKS, a configuração seria muito parecida.
+#### b. Serviços:
+Nginx:
+Pode ser configurado como um Deployment no Kubernetes com um Service do tipo NodePort ou LoadBalancer.
+#### c. Banco de Dados:
+PostgreSQL:
+Um serviço ClusterIP em Kubernetes para comunicação interna.
+#### d. Deploy e CI/CD:
+Pipeline:
+Você pode usar o GitLab CI ou GitHub Actions para configurar o pipeline de CI/CD, para automatizar o deploy dos containers no Kubernetes.
 
 ```mermaid
 graph TB
@@ -116,16 +128,3 @@ graph TB
   E[CI/CD Pipeline] -->|Automação| B
   E --> C
 ```
-
-### 4. Implementação:
-#### a. Infraestrutura Kubernetes (usando Minikube ou outra plataforma):
-Minikube pode ser utilizado em sua máquina local para criar um cluster Kubernetes. No caso de usar uma nuvem como GKE, AKS ou EKS, a configuração seria muito parecida.
-#### b. Serviços:
-Nginx:
-Pode ser configurado como um Deployment no Kubernetes com um Service do tipo NodePort ou LoadBalancer.
-#### c. Banco de Dados:
-PostgreSQL:
-Um serviço ClusterIP em Kubernetes para comunicação interna.
-#### d. Deploy e CI/CD:
-Pipeline:
-Você pode usar o GitLab CI ou GitHub Actions para configurar o pipeline de CI/CD, para automatizar o deploy dos containers no Kubernetes.
