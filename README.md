@@ -102,17 +102,17 @@ Automatiza o processo de build, testes e deploy.
 
 ```mermaid
 graph TB
-  A[Nginx - Reverso Proxy] -->|Roteamento de requisições| B[App Backend (PHP/Symfony)]
-  B --> C[Banco de Dados (PostgreSQL)]
-  B --> D[Frontend (separado ou integrado)]
-  
+  A[Nginx - Reverso Proxy] -->|Roteamento de requisições| B[App Backend - PHP/Symfony]
+  B --> C[Banco de Dados -PostgreSQL ]
+  B --> D[Frontend - separado ou integrado]
+
   subgraph Kubernetes Cluster
     A
     B
     C
     D
   end
-  
+
   E[CI/CD Pipeline] -->|Automação| B
   E --> C
 ```
