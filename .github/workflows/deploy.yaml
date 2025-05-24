@@ -16,10 +16,10 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           #role-to-assume: arn:aws:iam::951436824191:role/GitHubActionsRole  # substitua por um role válido se estiver usando OIDC
           aws-region: ${{ secrets.AWS_REGION }}
