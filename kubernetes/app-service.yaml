@@ -3,11 +3,10 @@ kind: Service
 metadata:
   name: sistema-pedidos-service
 spec:
-  type: NodePort               
+  type: LoadBalancer               
   selector:
     app: sistema-pedidos-app
   ports:
     - protocol: TCP
       port: 80                
-      targetPort: 9000        
-      nodePort: 30080       
+      targetPort: 80        
