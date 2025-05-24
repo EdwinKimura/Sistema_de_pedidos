@@ -1,31 +1,34 @@
-# Usar uma imagem oficial do PHP como base
+# Usar imagem oficial PHP com FPM
 FROM php:8.2-fpm
 
-# Instalar dependências do sistema
+# Instalar dependências necessárias + nginx
 RUN apt-get update && apt-get install -y \
+    nginx \
     libpq-dev \
     unzip \
     git \
-    && docker-php-ext-install pdo pdo_pgsql
+    && docker-php-ext-install pdo pdo_pgsql sockets
 
-RUN docker-php-ext-install sockets
-
-# Baixar e instalar o Composer
+# Instalar o Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Definir o diretório de trabalho no contêiner
+# Definir diretório de trabalho
 WORKDIR /var/www/html
 
-# Copiar o restante do código do projeto para o contêiner
+# Copiar o código da aplicação para o container
 COPY . .
 
-# Copiar o arquivo de configuração customizado do Nginx
+# Copiar configuração customizada do Nginx (você deve criar esse arquivo)
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Instalar dependências do PHP
+# Instalar dependências PHP
 RUN composer install --optimize-autoloader
 
-# Ajustar permissões (se necessário)
+# Ajustar permissões
 RUN chown -R www-data:www-data /var/www/html
 
-EXPOSE 9000
+# Expor porta 80 para HTTP
+EXPOSE 80
+
+# Iniciar Nginx e PHP-FPM juntos
+CMD service nginx start && php-fpm -F
