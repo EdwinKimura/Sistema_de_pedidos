@@ -4,6 +4,6 @@ nelmio_api_doc:
             path_patterns:
                 - ^/api(?!/doc$)
         internal:
-            with_annotation: true
+            with_attribute: true
         public:
-            with_annotation: true
+            with_attribute: true
