@@ -45,6 +45,7 @@ jobs:
 
       - name: Verificar configuração kubectl
         run: |
+          aws sts get-caller-identity
           kubectl config view
           kubectl config current-context
           kubectl get nodes
