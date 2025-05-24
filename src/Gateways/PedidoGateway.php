@@ -22,7 +22,7 @@ class PedidoGateway implements PedidoGatewayInterface
 
     public function listarTodosPendentes(): array
     {
-        return $this->_db_connection->listarPorParametros($this->table, ['status' => 'Finalizado'], order: ['modificado_em' => 'DESC'], modoCondicao: ' != ');
+        return $this->_db_connection->listarPorParametros($this->table, ['status' => 'Finalizado'], order: ['modificado_em' => 'ASC'], modoCondicao: ' != ');
     }
 
     public function criarPedido(Pedido $pedido): mixed

@@ -16,7 +16,25 @@ spec:
         - name: sistema-pedidos-app
           image: edwinkimura/sistema-pedidos-app:latest
           env:
-            - name: DATABASE_URL
-              value: "postgresql://symfony_user:senha_segura@database:5432/sistema_pedidos"
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: rds-secret
+                  key: host
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: rds-secret
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rds-secret
+                  key: password
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: rds-secret
+                  key: dbname
           ports:
             - containerPort: 9000

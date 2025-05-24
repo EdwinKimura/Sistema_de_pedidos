@@ -27,7 +27,14 @@ class PedidoUseCase
         $novoPedido->setCriadoEm(strtotime('now'));
         $novoPedido->setModificadoEm(strtotime('now'));
 
-        $cliente = $clienteGateway->obterClientePorCpf($pedido['cpf'])[0]['id'] ?? null;
+        if(!isset($pedido['cpf']) || strlen(trim($pedido['cpf'])) < 11)
+        {
+            $id = null;
+        }
+        else{
+            $id = $clienteGateway->obterClientePorCpf($pedido['cpf'])[0]['id'];
+        }
+        $cliente =  $id;
         $novoPedido->setCliente($cliente);
 
         $valorTotal = 0;
