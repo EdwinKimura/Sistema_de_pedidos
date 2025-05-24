@@ -53,3 +53,5 @@ jobs:
         run: |
           kubectl get all -n default
           kubectl logs pod/sistema-pedidos-app-789669d6dd-fwpmg
+          kubectl get nodes -o wide
+
