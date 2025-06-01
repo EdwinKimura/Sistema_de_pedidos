@@ -9,5 +9,5 @@ spec:
   selector:
     app: sistema-pedidos-app
   ports:
-      - port: 443                
+      - port: 80                
         targetPort: 9000        
