@@ -129,7 +129,7 @@ class Database implements DbConnection
 
         try {
             $result = $client->invoke([
-                'FunctionName'   => 'nome-da-sua-lambda',
+                'FunctionName'   => 'auth-cpf-lambda',
                 'InvocationType' => 'RequestResponse',
                 'Payload'        => $payload,
             ]);
