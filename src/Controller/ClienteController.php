@@ -28,6 +28,14 @@ class ClienteController
         return $clienteUseCase->obterClientePorCpf($clienteGateway, $cpf);
     }
 
+    public static function obterClientePorCpfViaLambda(DbConnection $connection, string $cpf): array
+    {
+        $clienteGateway = new ClienteGateway($connection);
+        $clienteUseCase = new ClienteUseCase();
+
+        return $clienteUseCase->obterClientePorCpfViaLambda($clienteGateway, $cpf);
+    }
+
     public static function cadastrarCliente(DbConnection $connection, array $cliente): mixed
     {
         $clienteGateway = new ClienteGateway($connection);

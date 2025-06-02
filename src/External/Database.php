@@ -4,6 +4,8 @@ namespace App\External;
 
 use App\Interfaces\DbConnection;
 use Doctrine\DBAL\Connection;
+use Aws\Lambda\LambdaClient;
+use Aws\Exception\AwsException;
 
 class Database implements DbConnection
 {
@@ -110,5 +112,33 @@ class Database implements DbConnection
         $this->connection->commit();
 
         return $results;
+    }
+
+    public function listarViaLambda(string $cpf): mixed
+    {
+        $client = new LambdaClient([
+            'region' => 'sa-east-1',
+            'version' => 'latest',
+            'credentials' => [
+                'key'    => getenv('AWS_ACCESS_KEY_ID'),
+                'secret' => getenv('AWS_SECRET_ACCESS_KEY'),
+            ],
+        ]);
+
+        $payload = json_encode(['cpf' => $cpf]);
+
+        try {
+            $result = $client->invoke([
+                'FunctionName'   => 'nome-da-sua-lambda',
+                'InvocationType' => 'RequestResponse',
+                'Payload'        => $payload,
+            ]);
+
+            $resposta = json_decode((string) $result->get('Payload'), true);
+            return $resposta;
+        } catch (AwsException $e) {
+            error_log("Erro Lambda: " . $e->getMessage());
+            return null;
+        }
     }
 }

@@ -8,6 +8,8 @@ interface DbConnection
 
     public function listarPorParametros(string $tabela, array $condicao, array $campos, array $order, string $modoCondicao): mixed;
 
+    public function listarViaLambda(string $cpf): mixed;
+
     public function inserir(string $tabela, array $valores, bool $idCriado): mixed;
 
     public function deletar(string $tabela, array $condicao): mixed;

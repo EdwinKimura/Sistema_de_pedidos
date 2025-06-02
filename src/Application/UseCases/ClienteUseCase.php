@@ -17,6 +17,11 @@ class ClienteUseCase
         return $clienteGateway->obterClientePorCpf($cpf);
     }
 
+     public function obterClientePorCpfViaLambda(ClienteGatewayInterface $clienteGateway, string $cpf): array
+    {
+        return $clienteGateway->obterClientePorCpfViaLambda($cpf);
+    }
+
     public function cadastrarCliente(ClienteGatewayInterface $clienteGateway, array $cliente): Cliente|null
     {
         $busca = $clienteGateway->obterClientePorCpf($cliente['cpf']);

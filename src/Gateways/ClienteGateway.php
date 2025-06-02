@@ -36,4 +36,9 @@ class ClienteGateway implements ClienteGatewayInterface
 
         return $this->connection->inserir($this->table, $valores);
     }
+
+    public function obterClientePorCpfViaLambda(string $cpf): array|null
+    {
+        return $this->connection->listarViaLambda($cpf);
+    }
 }

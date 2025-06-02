@@ -69,7 +69,7 @@ class ClienteApi
     )]
     public function buscarPorCpf(string $cpf): JsonResponse
     {
-        $cliente = ClienteController::obterClientePorCpf($this->_db_connection, $cpf);
+        $cliente = ClienteController::obterClientePorCpfViaLambda($this->_db_connection, $cpf);
 
         if (!$cliente) {
             return new JsonResponse(['message' => 'Cliente não encontrado'], 404);
