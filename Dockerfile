@@ -9,9 +9,6 @@ RUN apt-get update && apt-get install -y \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Força PHP-FPM a escutar na porta 9000
-RUN echo "listen = 127.0.0.1:9000" >> /usr/local/etc/php-fpm.d/zz-docker.conf
-
 WORKDIR /var/www/html
 COPY . .
 
